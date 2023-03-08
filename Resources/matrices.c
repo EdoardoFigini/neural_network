@@ -5,19 +5,6 @@
 #include "log.h"
 #include "matrices.h"
 
-
-/* int main(int argc, char** argv){
-  matrix_t *A, *B, *C, *M, *S, *T;
-
-  A = new_matrix(10,1);
-  populate_matrix_stdin(A);
-  print_matrix(A);
-
-  printf("%d\n", argmax(A));
-
-  free_matrix(A);
-} */ 
-
 matrix_t* new_matrix(int height, int width){
   int i, j;
   matrix_t* m;
