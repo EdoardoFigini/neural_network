@@ -30,7 +30,7 @@ double random_double();
 
 int main(int argc, char** argv){
   layer_t output_layer, hidden_layer, input_layer;
-  matrix_t *x, *y;
+  matrix_t *x, *y, *ref;
   int ret;
 
   /* initialize random seed */
@@ -40,8 +40,9 @@ int main(int argc, char** argv){
   y = NULL;
   
   /* get contents of dataset */
-  x = parse_csv("mnist_train.csv");
-  x = transpose(x);
+  ref = parse_csv("mnist_train.csv");
+  x = transpose(ref);
+  free_matrix(ref);
 
   init_layer(&input_layer, (x->h)-1, 0); /* subtracting 1 for the label */
   init_layer(&hidden_layer, 10, input_layer.neurons);
@@ -53,8 +54,9 @@ int main(int argc, char** argv){
   print_ok("Done");
   
   free_matrix(x);
-  x = parse_csv("mnist_test.csv");
-  x = transpose(x);
+  ref = parse_csv("mnist_test.csv");
+  x = transpose(ref);
+  free_matrix(ref);
 
   print_info("Testing model...");
   ret = make_predictions(x, &input_layer, &hidden_layer, &output_layer);
