@@ -18,19 +18,20 @@ typedef struct{
   int neurons;
 } layer_t;
 
-int gradient_descent(matrix_t*, layer_t*, layer_t*, layer_t*);
-int forward_propagation(layer_t*, layer_t*, layer_t*);
-int backward_propagation(layer_t*, layer_t*, layer_t*, matrix_t*);
-int update_params(layer_t*, matrix_t*, matrix_t*);
-int make_predictions(matrix_t*, layer_t*, layer_t*, layer_t*);
-matrix_t* relu(matrix_t*);
-matrix_t* deriv_relu(matrix_t*);
-void init_layer(layer_t*, int, int);
-double random_double();
+static int gradient_descent(matrix_t*, layer_t*, layer_t*, layer_t*);
+static int forward_propagation(layer_t*, layer_t*, layer_t*);
+static int backward_propagation(layer_t*, layer_t*, layer_t*, matrix_t*);
+static int update_params(layer_t*, matrix_t*, matrix_t*);
+static int make_predictions(matrix_t*, layer_t*, layer_t*, layer_t*);
+static matrix_t* relu(matrix_t*);
+static matrix_t* deriv_relu(matrix_t*);
+static void init_layer(layer_t*, int, int);
+static double random_double();
 
 int main(int argc, char** argv){
   layer_t output_layer, hidden_layer, input_layer;
-  matrix_t *x, *y, *ref;
+  matrix_t *x, *y; 
+  matrix_t *ref;
   int ret;
 
   /* initialize random seed */
@@ -66,7 +67,7 @@ int main(int argc, char** argv){
   return ret;
 }
 
-int gradient_descent(matrix_t* dataset, layer_t* input, layer_t* hidden, layer_t* output){
+static int gradient_descent(matrix_t* dataset, layer_t* input, layer_t* hidden, layer_t* output){
   matrix_t* y;
   int i, j, e, ret, sum, label;
   float accuracy;
@@ -105,7 +106,7 @@ int gradient_descent(matrix_t* dataset, layer_t* input, layer_t* hidden, layer_t
   return 0;
 }
 
-void init_layer(layer_t* l, int dim, int dim_prec){ 
+static void init_layer(layer_t* l, int dim, int dim_prec){ 
   int i, j;
   
   l->weights = new_matrix(dim, dim_prec);
@@ -130,7 +131,7 @@ void init_layer(layer_t* l, int dim, int dim_prec){
 
 }
 
-int forward_propagation(layer_t* input, layer_t* hidden, layer_t* output){
+static int forward_propagation(layer_t* input, layer_t* hidden, layer_t* output){
   matrix_t* ref;
 
   /* Z = WX+B */
@@ -152,7 +153,7 @@ int forward_propagation(layer_t* input, layer_t* hidden, layer_t* output){
   return 0;
 }
 
-int backward_propagation(layer_t* input, layer_t* hidden, layer_t* output, matrix_t* label){
+static int backward_propagation(layer_t* input, layer_t* hidden, layer_t* output, matrix_t* label){
   matrix_t *dz2, *dz1, *dw2, *db2, *dw1, *db1;
   matrix_t *ref, *ref2;
   int ret;
@@ -193,7 +194,7 @@ int backward_propagation(layer_t* input, layer_t* hidden, layer_t* output, matri
   return 0;
 }
 
-int update_params(layer_t* l, matrix_t* dw, matrix_t* db){
+static int update_params(layer_t* l, matrix_t* dw, matrix_t* db){
   matrix_t *ref, *new_values;
 
   ref = scalar_multiplication(dw, -LEARNING_RATE);
@@ -215,7 +216,7 @@ int update_params(layer_t* l, matrix_t* dw, matrix_t* db){
   return 0;
 }
 
-int make_predictions(matrix_t* dataset, layer_t* input, layer_t* hidden, layer_t* output){
+static int make_predictions(matrix_t* dataset, layer_t* input, layer_t* hidden, layer_t* output){
   int i, j, ret, sum, label;
   float accuracy;
 
@@ -240,7 +241,7 @@ int make_predictions(matrix_t* dataset, layer_t* input, layer_t* hidden, layer_t
   return ret;
 }
 
-matrix_t* relu(matrix_t* in){
+static matrix_t* relu(matrix_t* in){
   matrix_t* o;
   int i, j;
 
@@ -257,7 +258,7 @@ matrix_t* relu(matrix_t* in){
   return o;
 }
 
-matrix_t* deriv_relu(matrix_t* in){
+static matrix_t* deriv_relu(matrix_t* in){
   matrix_t* o;
   int i, j;
 
@@ -274,6 +275,6 @@ matrix_t* deriv_relu(matrix_t* in){
   return o;
 }
 
-double random_double(){
+static double random_double(){
   return (double)rand()/(double)(RAND_MAX) - (double).5;
 }

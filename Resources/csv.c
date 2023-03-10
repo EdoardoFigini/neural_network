@@ -5,7 +5,6 @@
 #include "matrices.h"
 #include "csv.h"
 
-
 matrix_t* parse_csv(const char* filename){
   FILE *fp;
   char *s;
@@ -58,7 +57,7 @@ matrix_t* parse_csv(const char* filename){
   return m;
 }
 
-int get_dimensions(const char* filename, int* cols, int* rows){
+static int get_dimensions(const char* filename, int* cols, int* rows){
   FILE *fp;
   char c;
   
@@ -80,8 +79,6 @@ int get_dimensions(const char* filename, int* cols, int* rows){
       (*rows)++;
     }
   }
-
-  // printf("Dim:%dx%d\n", *cols, *rows); 
 
   fclose(fp);
 

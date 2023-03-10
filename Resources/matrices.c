@@ -146,10 +146,6 @@ matrix_t* element_multiplication(matrix_t* a, matrix_t* b){
     }
   }
 
-  // print_matrix(a);
-  // print_matrix(b);
-  // print_matrix(m);
-
   return m;
 }
 
@@ -237,18 +233,6 @@ int free_matrix(matrix_t* m){
   }
   free(m->values);
   free(m);
-
-  return 0;
-}
-
-int matrix_to_file(FILE* fp, matrix_t* m){
-  int i;
-
-  fwrite(&(m->w), sizeof(int), 1, fp);
-  fwrite(&(m->h), sizeof(int), 1, fp);
-  for(i=0; i<m->h; i++){
-    fwrite(m->values[i], sizeof(float), m->w, fp);
-  }
 
   return 0;
 }
