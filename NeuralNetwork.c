@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <time.h>
 
 #include "Resources/log.h"
@@ -277,4 +276,8 @@ static matrix_t* deriv_relu(matrix_t* in){
 
 static double random_double(){
   return (double)rand()/(double)(RAND_MAX) - (double).5;
+}
+
+static int save_model(){
+  return 0;
 }
