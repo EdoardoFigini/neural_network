@@ -43,14 +43,14 @@ int populate_matrix_stdin(matrix_t* m){
 
   for(i=0; i<m->h; i++){
     for(j=0; j<m->w; j++){
-      scanf(" %f", &(m->values[i][j]));
+      scanf(" %lf", &(m->values[i][j]));
     }
   }
 
   return 0;
 }
 
-matrix_t* dot_product(matrix_t* a, matrix_t* b){
+matrix_t* dot_product(const matrix_t* a,const matrix_t* b){
   int i, j, h, k, sum;
   matrix_t* m;
 
@@ -74,7 +74,7 @@ matrix_t* dot_product(matrix_t* a, matrix_t* b){
   return m;
 }
 
-matrix_t* add_matrices(matrix_t* a, matrix_t* b){
+matrix_t* add_matrices(const matrix_t* a, const matrix_t* b){
   matrix_t* m;
   int i, j;
 
@@ -96,7 +96,7 @@ matrix_t* add_matrices(matrix_t* a, matrix_t* b){
   return m;
 }
 
-matrix_t* transpose(matrix_t* m){
+matrix_t* transpose(const matrix_t* m){
   matrix_t* t;
   int i, j;
 
@@ -113,7 +113,7 @@ matrix_t* transpose(matrix_t* m){
   return t;
 }
 
-matrix_t* scalar_multiplication(matrix_t* a, double n){
+matrix_t* scalar_multiplication(const matrix_t* a, double n){
   matrix_t* b;
   int i, j;
 
@@ -130,7 +130,7 @@ matrix_t* scalar_multiplication(matrix_t* a, double n){
   return b;
 }
 
-matrix_t* element_multiplication(matrix_t* a, matrix_t* b){
+matrix_t* element_multiplication(const matrix_t* a, const matrix_t* b){
   matrix_t* m;
   int i, j;
   
@@ -149,7 +149,7 @@ matrix_t* element_multiplication(matrix_t* a, matrix_t* b){
   return m;
 }
 
-matrix_t* softmax(matrix_t* in){
+matrix_t* softmax(const matrix_t* in){
   matrix_t* o;
   int i, j;
   double sum;
@@ -181,7 +181,7 @@ matrix_t* softmax(matrix_t* in){
   return o;
 }
 
-int argmax(matrix_t* in){
+int argmax(const matrix_t* in){
   double m;
   int i;
 
@@ -197,7 +197,7 @@ int argmax(matrix_t* in){
   return i;
 }
 
-int print_matrix(matrix_t *m){
+int print_matrix(const matrix_t *m){
   int i, j;
 
   if(m==NULL){
@@ -234,5 +234,28 @@ int free_matrix(matrix_t* m){
   free(m->values);
   free(m);
 
+  return 0;
+}
+
+int matrix_to_file(FILE* fp, matrix_t* m){
+  int i;
+
+  //fwrite(&(m->w), sizeof(int), 1, fp);
+  // fwrite(&(m->h), sizeof(int), 1, fp);
+  for(i=0; i<m->h; i++){
+    fwrite(m->values[i], sizeof(double), m->w, fp);
+  }
+  return 0;
+}
+
+int matrix_from_file(FILE* fp, matrix_t* m){
+  int i;
+
+  // fread(&w, sizeof(int), 1, fp);
+  // fread(&h, sizeof(int), 1, fp);
+  // m = new_matrix(h, w);
+  for(i=0; i<m->h; i++){
+    fread(m->values[i], sizeof(double), m->w, fp);
+  }
   return 0;
 }

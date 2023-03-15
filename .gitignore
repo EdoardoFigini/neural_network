@@ -2,3 +2,6 @@
 *.log
 *2.c
 *.out
+*.tmp
+*.o
+*.sh
